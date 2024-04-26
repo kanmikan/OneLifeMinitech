@@ -1268,7 +1268,6 @@ static char *getDisplayObjectDescription( int inID ) {
     return upper;
     }
 
-
 static char *getFullUpperCasedObjectDescription( int inID ) {
     ObjectRecord *o = getObject( inID );
     if( o == NULL ) {
@@ -1318,7 +1317,6 @@ static bool potentialContainerChangebyContTrans( int oldId, int newId ) {
         return true;
     return false;
 }
-
 
 typedef enum messageType {
     SHUTDOWN,
@@ -3168,7 +3166,6 @@ LivingLifePage::LivingLifePage()
         }
         
         minitech::setLivingLifePage(this, &gameObjects, mMapD, pathFindingD, mMapContainedStacks, mMapSubContainedStacks);
-        
     }
 
 
@@ -3459,12 +3456,8 @@ LivingLifePage::~LivingLifePage() {
         delete [] homelands.getElementDirect( i ).familyName;
         }
     homelands.deleteAll();
-<<<<<<< HEAD
-    
-    minitech::clearStep();
-    
-}
-=======
+	
+	minitech::clearStep();
 
 
     if( rocketAnimationStarted ) {
@@ -3472,7 +3465,6 @@ LivingLifePage::~LivingLifePage() {
         rocketAnimationStarted = false;
         }
     }
->>>>>>> c9982c8fa73cb427a2782d8e7cecdad461ecd4f3
 
 
 
@@ -9781,7 +9773,7 @@ void LivingLifePage::draw( doublePair inViewCenter,
         }
     
     for( int i=0; i<NUM_HINT_SHEETS; i++ ) {
-        if ( ! minitech::minitechEnabled ) //minitech
+		if ( ! minitech::minitechEnabled ) //minitech
         if( ! equal( mHintPosOffset[i], mHintHideOffset[i] ) 
             &&
             mHintMessage[i] != NULL ) {
@@ -10331,9 +10323,7 @@ void LivingLifePage::draw( doublePair inViewCenter,
         }
 
 
-
-
-    // draw minitech gui before, to hide the background behind the bottom bar
+	// draw minitech gui before, to hide the background behind the bottom bar
     float worldMouseX, worldMouseY;
     getLastMouseScreenPos( &lastScreenMouseX, &lastScreenMouseY );
     screenToWorld( lastScreenMouseX, lastScreenMouseY, &worldMouseX, &worldMouseY );
@@ -11230,7 +11220,6 @@ void LivingLifePage::draw( doublePair inViewCenter,
             }
         }
 
-    
     
     if( vogMode ) {
         // draw again, so we can see picker
@@ -24261,9 +24250,9 @@ static void freeSavedPath() {
 
 
 void LivingLifePage::pointerDown( float inX, float inY ) {
-    
-    if (minitech::livingLifePageMouseDown( inX, inY )) return;
-    
+	
+	if (minitech::livingLifePageMouseDown( inX, inY )) return;
+	
     lastMouseX = inX;
     lastMouseY = inY;
 
@@ -24768,7 +24757,7 @@ void LivingLifePage::pointerDown( float inX, float inY ) {
                 mNextHintObjectID = destID;
                 if( isHintFilterStringInvalid() ) {
                     mNextHintIndex = mHintBookmarks[ destID ];
-                    if (minitech::changeHintObjOnTouch) minitech::changeCurrentHintObjId(destID);                    
+                    if (minitech::changeHintObjOnTouch) minitech::changeCurrentHintObjId(destID);
                     }
                 }
             else if( tr->newActor > 0 && 

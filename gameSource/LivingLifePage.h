@@ -24,7 +24,7 @@
 
 #include "TextField.h"
 
-#include <string>
+#include <string> //minitech
 
 #define NUM_HUNGER_BOX_SPRITES 20
 
@@ -563,11 +563,11 @@ class LivingLifePage : public GamePage, public ActionListener {
             return mRequiredVersion;
             }
 
-
         doublePair minitechGetLastScreenViewCenter();
         std::string minitechGetFullObjectDescription(int objId);
         std::string minitechGetDisplayObjectDescription(int objId);
         bool minitechSayFieldIsFocused() { return mSayField.isFocused(); }
+
 
         virtual void actionPerformed( GUIComponent *inTarget );
         
@@ -631,10 +631,10 @@ class LivingLifePage : public GamePage, public ActionListener {
 
         int mMapD;
 
-        public:
+        public: //minitech
         int *mMap;
         
-        protected:
+        protected: //minitech
         int *mMapBiomes;
         int *mMapFloors;
 
@@ -1027,12 +1027,6 @@ class LivingLifePage : public GamePage, public ActionListener {
 
         public:
         LiveObject *getOurLiveObject();
-<<<<<<< HEAD
-        
-        protected:
-        LiveObject *getLiveObject( int inID );
-=======
->>>>>>> c9982c8fa73cb427a2782d8e7cecdad461ecd4f3
         
 
         void clearLiveObjects();
