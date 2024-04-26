@@ -385,6 +385,10 @@ typedef struct LiveObject {
         
         char isGhost;
 
+        // for players that shouldn't be drawn for some reason
+        // (like after someone rides the rocket)
+        char skipDrawing;        
+
     } LiveObject;
 
 
@@ -568,6 +572,20 @@ class LivingLifePage : public GamePage, public ActionListener {
         virtual void actionPerformed( GUIComponent *inTarget );
         
 
+        // inSpeaker can be NULL
+        void drawChalkBackgroundString( doublePair inPos, 
+                                        const char *inString,
+                                        double inFade,
+                                        double inMaxWidth,
+                                        LiveObject *inSpeaker = NULL,
+                                        int inForceMinChalkBlots = -1,
+                                        FloatColor *inForceBlotColor = NULL,
+                                        FloatColor *inForceTextColor = NULL );
+
+        
+        LiveObject *getLiveObject( int inID );
+        
+        
     protected:
 
         int mServerSocket;
@@ -1009,22 +1027,16 @@ class LivingLifePage : public GamePage, public ActionListener {
 
         public:
         LiveObject *getOurLiveObject();
+<<<<<<< HEAD
         
         protected:
         LiveObject *getLiveObject( int inID );
+=======
+>>>>>>> c9982c8fa73cb427a2782d8e7cecdad461ecd4f3
         
 
         void clearLiveObjects();
         
-        // inSpeaker can be NULL
-        void drawChalkBackgroundString( doublePair inPos, 
-                                        const char *inString,
-                                        double inFade,
-                                        double inMaxWidth,
-                                        LiveObject *inSpeaker = NULL,
-                                        int inForceMinChalkBlots = -1,
-                                        FloatColor *inForceBlotColor = NULL,
-                                        FloatColor *inForceTextColor = NULL );
         
         
         void drawOffScreenSounds();
