@@ -14690,6 +14690,8 @@ void LivingLifePage::step() {
                                              p_id, rocketO,
                                              lengthInSeconds );
 
+                        delayAgingMusic( lengthInSeconds );
+
                         if( ahapSteamKey != NULL ) {
                             delete [] ahapSteamKey;
                             }
