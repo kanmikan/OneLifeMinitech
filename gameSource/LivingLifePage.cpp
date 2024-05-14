@@ -24381,6 +24381,11 @@ void LivingLifePage::pointerDown( float inX, float inY ) {
     if( vogMode ) {
         return;
         }
+    
+    if( apocalypseInProgress ) {
+        return;
+        }
+    
 
     char modClick = false;
     
