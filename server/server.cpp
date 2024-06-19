@@ -13746,11 +13746,22 @@ void apocalypseStep() {
 
                 AppLog::infoF( "Apocalypse freeMap took %f sec",
                                Time::getCurrentTime() - startTime );
+                
+                resetEveRadius();
+                resetEveLocation();
+                
+                
+                startTime = Time::getCurrentTime();
+
                 wipeMapFiles();
 
                 AppLog::infoF( "Apocalypse wipeMapFiles took %f sec",
                                Time::getCurrentTime() - startTime );
                 
+
+                
+                startTime = Time::getCurrentTime();
+
                 initMap();
 
                 reseedMap( true );
@@ -18887,6 +18898,9 @@ int main() {
             }
         else if( shutdownMode ) {
             // any disconnected players should be killed now
+            
+            char someNonGhostsRemainAlive = false;
+            
             for( int i=0; i<players.size(); i++ ) {
                 LiveObject *nextPlayer = players.getElement( i );
                 if( ! nextPlayer->error && ! nextPlayer->connected ) {
@@ -18898,7 +18912,36 @@ int main() {
                     nextPlayer->errorCauseString =
                         "Disconnected during shutdown";
                     }
+                else if( ! nextPlayer->error &&
+                         nextPlayer->connected &&
+                         ! nextPlayer->isGhost ) {
+                    someNonGhostsRemainAlive = true;
+                    }
                 }
+
+            if( ! someNonGhostsRemainAlive ) {
+                // everyone left alive is a ghost?
+                // ghosts are preventing the server from shutting down
+                // they could delay it forever
+                // force-kill all ghosts
+
+                for( int i=0; i<players.size(); i++ ) {
+                    
+                    LiveObject *nextPlayer = players.getElement( i );
+                    
+                    if( ! nextPlayer->error && nextPlayer->connected &&
+                        nextPlayer->isGhost ) {
+                    
+                        setDeathReason( nextPlayer, 
+                                        "exorcism_shutdown" );
+                    
+                        nextPlayer->error = true;
+                        nextPlayer->errorCauseString =
+                            "Remaining ghost destroyed during shutdown";
+                        }
+                    }
+                }
+            
             }
         
 
@@ -19917,6 +19960,21 @@ int main() {
                                 sscanf( tokens->getElementDirect( 4 ),
                                         "%d", 
                                         &( nextConnection->tutorialNumber ) );
+                                
+                                if( nextConnection->tutorialNumber != 0 ) {
+                                    
+                                    useContentSettings();
+                                
+                                    int tutorialEnabled = 
+                                        SettingsManager::getIntSetting( 
+                                            "tutorialEnabled", 0 );
+                                    
+                                    useMainSettings();
+                                    
+                                    if( ! tutorialEnabled ) {
+                                        nextConnection->tutorialNumber = 0;
+                                        }
+                                    }
                                 }
                             
                             if( tokens->size() == 7 ) {
