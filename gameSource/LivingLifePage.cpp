@@ -26285,7 +26285,9 @@ void LivingLifePage::keyDown( unsigned char inASCII ) {
             }
         return;
         }
-
+    
+    //minitech key hook
+    minitech::livingLifeKeyDown(inASCII);
     
     switch( inASCII ) {
         /*
