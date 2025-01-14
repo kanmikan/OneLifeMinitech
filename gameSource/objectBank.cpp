@@ -3634,9 +3634,28 @@ int addObject( const char *inDescription,
                int inExistingObjectHeight ) {
 
 
-    char *authorHash = getAuthorHash();
+    char *authorHash = NULL;
+
+    if( inReplaceID != -1 ) {
+        // see if existing object has a hash saved
+        // if so, keep it
+        
+        ObjectRecord *o = getObject( inReplaceID, true );
+        
+        if( o != NULL && o->authorTag != NULL ) {
+            authorHash = stringDuplicate( o->authorTag );
+            }
+        }
+
+
+    if( authorHash == NULL ) {
+        // no hash set in existing object (or this is a brand new object)
+        // use THIS current author's hash
+        authorHash = getAuthorHash();
+        }
     
-    
+
+
     if( inSlotTimeStretch < 0.0001 ) {
         inSlotTimeStretch = 0.0001;
         }
@@ -5216,7 +5235,7 @@ int getRandomPersonObjectOfRace( int inRace ) {
 
 
 int getRandomFamilyMember( int inRace, int inMotherID, int inFamilySpan,
-                           char inForceGirl ) {
+                           char inForceGirl, char inForceBoy ) {
     
     if( inRace > MAX_RACE ) {
         inRace = MAX_RACE;
@@ -5327,7 +5346,21 @@ int getRandomFamilyMember( int inRace, int inMotherID, int inFamilySpan,
         }
 
     
-    if( inForceGirl && girlCount > 0 ) {
+
+    if( inForceBoy && boyCount > 0 ) {
+        // forced boy overrides forced girl
+        
+        // remove girls from list
+        for( int p=0; p<spanPeople.size(); p++ ) {
+            int pID = spanPeople.getElementDirect( p );
+            
+            if( ! getObject( pID )->male ) {
+                spanPeople.deleteElement( p );
+                p--;
+                }
+            }    
+        }
+    else if( inForceGirl && girlCount > 0 ) {
         // remove boys from list
         for( int p=0; p<spanPeople.size(); p++ ) {
             int pID = spanPeople.getElementDirect( p );
